@@ -7,9 +7,8 @@ export const FiltrosSelects = ({valores, nombre, cambio}) => {
     <>
         <div className="col">
           <label className="form-label">{nombre}</label>
-          <input type="checkbox" name="" id="" />
           <select className="form-select" key={name} name={name} onChange={cambio}>
-          <option key={0} value={0}>Selecciona una opción...</option>
+          <option key={0} value={'Todos'}>Todos</option>
             {
                 valores.map((valor, index) => {
                     const nombre = Object.keys(valor);

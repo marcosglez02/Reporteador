@@ -15,20 +15,21 @@ export const useFiltros = () => {
          setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria } = useContext(ArchivoContext);
 
     const handleSubmit = async (event) => {
+        const nombreTabla = localStorage.getItem('nombre')
         // Cancelar el evento de recarga de la pagina
          event.preventDefault()
         // Peticion post a la api 
-        await axios.post('http://localhost:3000/api/filtrado', post,{headers: {"Content-Type": "application/json"}})
+        await axios.post('http://localhost:3000/api/filtrado', [filtrado, {name: nombreTabla}] ,{headers: {"Content-Type": "application/json"}})
             .then(response => setdatosPost(response.data))
             .catch(error => console.log(error))
-        //     setEstadoGrafica(true);
+             //setEstadoGrafica(true);
         console.log('HandleSubmit')
     }
 
 
     const fetchData = () => {
         setChartData({
-            labels: datosPost.map(element => element.Categoria),
+            labels: datosPost.map(element => element.labels),
             datasets: [{
                 fill: true,
                 label: '# de Categorias en Prioridad Alta',
@@ -92,7 +93,8 @@ return {
     estadoGrafica, 
     handleInput, 
     handleSubmit, 
-    peticionesGet, 
+    peticionesGet,
+    fetchData, 
     categoria, empresa, departamento, prioridad, subcategoria, ubicacion 
 }
 
