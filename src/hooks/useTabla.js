@@ -34,6 +34,14 @@ export const useTabla = () => {
         }
     }, [tabla])
 
+    useEffect(() => {
+        if(tabla.length != 0){
+            setFilter(tabla)
+        }
+        
+    }, [tabla])
+    
+
 
     const peticionTabla = async () => {
         const nombreTabla = localStorage.getItem('nombre')
