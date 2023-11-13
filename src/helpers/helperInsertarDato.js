@@ -10,18 +10,31 @@ export const helperInsertarDato = async (fileContent, cambiarEstado)=>{
 
   const nombreTabla = (new Date().getTime() * 2).toString() + (random()).toString();
 
+  const tablaAntigua = localStorage.getItem('nombre');
+
+  if(tablaAntigua===undefined){
+
+  }else{
+    const res = await axios.post('http://localhost:3000/api/eliminarTabla', { name: tablaAntigua }, {
+      Headers: { 'Content-Type': 'application/json' }
+    })
+
+    console.log(res.data)
+  }
+
   localStorage.setItem('nombre', nombreTabla)
 
   try {
     console.log('Entró al try')
-    await axios.post('http://localhost:3000/api/insertarExcelReactTabla', { name: nombreTabla }, {
+    const respuesta = await axios.post('http://localhost:3000/api/insertarExcelReactTabla', { name: nombreTabla }, {
       Headers: { 'Content-Type': 'application/json' }
     })
+    console.log(respuesta.data)
 
-    await axios.post('http://localhost:3000/api/insertarExcelReact', { content: datos, name: nombreTabla }, {
+    const resDatos = await axios.post('http://localhost:3000/api/insertarExcelReact', { content: datos, name: nombreTabla }, {
         Headers: { 'Content-Type': 'application/json' },
     })
-
+    console.log(resDatos.data)
 
   } catch (error) {
     console.log(error)

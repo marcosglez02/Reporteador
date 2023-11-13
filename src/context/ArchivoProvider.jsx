@@ -8,12 +8,14 @@ export const ArchivoProvider = ({children})=>{
     const [prioridad, setPrioridad] = useState([{prioridad:'prioridad'}])
     const [ubicacion, setUbicacion] = useState([{ubicacion:'ubicacion'}])
     const [subcategoria, setSubcategoria] = useState([{subcategoria:'subcategoria'}])
-    const [tabla, setTabla] = useState()
+    const [ordenamiento, setOrdenamiento] = useState(['categoria','empresa','departamento','prioridad','ubicacion', 'subcategoria'])
+    const [filtrado, setFiltrado] = useState({})
+    const [ordenarPor, setOrdenarPor] = useState([])
 
     return(
         <ArchivoContext.Provider value={ 
-            {categoria,empresa, departamento, prioridad, ubicacion, subcategoria,tabla
-            ,setEmpresa, setCategoria, setDepartamento, setPrioridad, setUbicacion, setSubcategoria,setTabla} 
+            {categoria,empresa, departamento, prioridad, ubicacion, subcategoria,tabla, ordenamiento,filtrado, ordenarPor,
+            setEmpresa, setCategoria, setDepartamento, setPrioridad, setUbicacion, setSubcategoria,setTabla, setFiltrado, setOrdenarPor} 
             }>
             { children }
         </ArchivoContext.Provider>
