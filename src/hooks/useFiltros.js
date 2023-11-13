@@ -5,25 +5,34 @@ import { ArchivoContext } from "../context/ArchivoContext"
 
 export const useFiltros = () => {
     const [todo, setTodo] = useState([])
-    const [filtrado, setFiltrado] = useState({})
+    //const [filtrado, setFiltrado] = useState({})
     const [datosPost, setdatosPost] = useState([])
     const [ChartData, setChartData] = useState({})
     const [estadoGrafica, setEstadoGrafica] = useState(false)
 
     // Contexto
-    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria,
-         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria } = useContext(ArchivoContext);
+    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor,
+         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor } = useContext(ArchivoContext);
 
     const handleSubmit = async (event) => {
         const nombreTabla = localStorage.getItem('nombre')
         // Cancelar el evento de recarga de la pagina
          event.preventDefault()
+         console.log(filtrado.ordenar)
+
+        if(ordenarPor === undefined || ordenarPor.length === 0 || ordenarPor === 'Todos'){
+            alert('Selecciona un filtrado');
+            console.log(ordenarPor)
+        }else{
+            
         // Peticion post a la api 
-        await axios.post('http://localhost:3000/api/filtrado', [filtrado, {name: nombreTabla}] ,{headers: {"Content-Type": "application/json"}})
+        await axios.post('http://localhost:3000/api/filtrado', [filtrado, {name: nombreTabla, ordenamiento: ordenarPor}] ,{headers: {"Content-Type": "application/json"}})
             .then(response => setdatosPost(response.data))
             .catch(error => console.log(error))
              //setEstadoGrafica(true);
         console.log('HandleSubmit')
+        }
+
     }
 
 
@@ -55,7 +64,23 @@ export const useFiltros = () => {
     }
 
     const handleInput = (event) => {
-        setFiltrado({ ...filtrado, [event.target.name]: event.target.value })
+
+        const valor = event.target.value;
+        const nombre = event.target.name;
+        const nombreOrdenamiento = ordenarPor;
+
+        if(nombreOrdenamiento === nombre){
+            setOrdenarPor('')
+        }
+
+        setFiltrado( (c)=> {
+            if( valor === 'Todos'){
+                const a = {...c};
+                delete a[nombre];
+                return a;
+            } 
+            return {...c, [nombre] : valor}
+        })
     }
     
     const peticionesGet = async () => {
@@ -94,7 +119,8 @@ return {
     handleInput, 
     handleSubmit, 
     peticionesGet,
-    fetchData, 
+    fetchData,
+    filtrado, 
     categoria, empresa, departamento, prioridad, subcategoria, ubicacion 
 }
 

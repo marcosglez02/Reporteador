@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import { Graficas } from './Graficas';
 import { useFiltros } from '../hooks/';
 import { FiltrosSelects } from './FiltrosSelects';
+import { FiltroSelectOrdernarPor } from './FiltroSelectOrdernarPor';
 
 export const Filtros = ({ cambiarEstado }) => {
 
     const { categoria, empresa, ubicacion, prioridad, subcategoria, departamento, 
-        ChartData, estadoGrafica, handleInput, handleSubmit, peticionesGet, fetchData } = useFiltros()
+        ChartData, estadoGrafica, handleInput, handleSubmit, peticionesGet, fetchData, filtrado } = useFiltros()
+
 
     useEffect(() => {
         if (cambiarEstado) {
@@ -20,8 +22,6 @@ export const Filtros = ({ cambiarEstado }) => {
             <form onSubmit={handleSubmit} >
                 <div className='container'>
                     
-                        
-                         
                             <>
                                 <div className="row">
 
@@ -46,22 +46,10 @@ export const Filtros = ({ cambiarEstado }) => {
                                         <input className='form-control' type='date' name='fecha2'  />
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="col mt-2">
-                                    <label className='form-label'>Ordenar por</label>
-                                        <select onChange={handleInput} className="form-select form-select-sm" aria-label="Small select example" id='ordenar' name='ordenar'>
-                                            <option value='categoria'>Categoria</option>
-                                            <option value='empresa'>Empresas</option>
-                                            <option value='ubicacion'>Ubicacion</option>
-                                            <option value='departamento'>Departamento</option>
-                                            <option value='prioridad'>Prioridad</option>
-                                            <option value='subcategoria'>Subcategoria</option>
-                                            <option value='empleado'>Empleado</option>
-                                        </select>
-                                    </div>
-                                    
+                                
+                                            <FiltroSelectOrdernarPor cambio={handleInput} datos={filtrado}/>
 
-                                </div>
+                                
                                 <div className="row">
                                     <button className='btn btn-outline-success s mt-3' type="submit">Enviar</button>
                                 </div>
