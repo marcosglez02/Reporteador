@@ -17,7 +17,7 @@ useEffect(() => {
 
   return (
     <>
-        <div className="container">
+        <div className="container bg-secondary">
           <h2 className="text-center mt-3">Selecciona el archivo .csv obtenido del SysAid</h2>
         <input type="file" onChange={(event) => helperInsertarArchivo(event, setFileContent)} className="form-control mt-3" id="doc" name="doc" accept=".xlsx, .csv"/>
         </div>

@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { Graficas } from './Graficas';
 import { useFiltros } from '../hooks/';
 import { FiltrosSelects } from './FiltrosSelects';
+import { Tabla } from './Tabla';
 
 export const Filtros = ({ cambiarEstado }) => {
 
     const { categoria, empresa, ubicacion, prioridad, subcategoria, departamento, 
-        ChartData, estadoGrafica, handleInput, handleSubmit, peticionesGet, fetchData } = useFiltros()
+        ChartData, estadoGrafica, handleInput, handleSubmit, peticionesGet, fetchData} = useFiltros()
 
     useEffect(() => {
         if (cambiarEstado) {
@@ -15,13 +16,12 @@ export const Filtros = ({ cambiarEstado }) => {
     }, [cambiarEstado])
 
 
+    
+
     return (
         <>
             <form onSubmit={handleSubmit} >
-                <div className='container'>
-                    
-                        
-                         
+                <div className='container bg-secondary'>
                             <>
                                 <div className="row">
 
@@ -39,11 +39,11 @@ export const Filtros = ({ cambiarEstado }) => {
 
                                     <div className="col">
                                         <label className='form-label'>Fecha Inicio</label>
-                                        <input className='form-control' type='date' min='2018-01-20'  name='fecha1' />
+                                        <input className='form-control' type='date' onChange={handleInput} name='fecha1' />
                                     </div>
                                     <div className="col">
                                         <label className='form-label'>Fecha Fin</label>
-                                        <input className='form-control' type='date' name='fecha2'  />
+                                        <input className='form-control' type='date' onChange={handleInput} name='fecha2'  />
                                     </div>
                                 </div>
                                 <div className="row">
@@ -63,7 +63,8 @@ export const Filtros = ({ cambiarEstado }) => {
 
                                 </div>
                                 <div className="row">
-                                    <button className='btn btn-outline-success s mt-3' type="submit">Enviar</button>
+                                    <button className='btn btn-success s mt-3 mb-3' type="submit">Enviar</button>
+                                    <br />
                                 </div>
 
                             </>
@@ -71,6 +72,8 @@ export const Filtros = ({ cambiarEstado }) => {
 
                 </div>
             </form>
+            
+            <Tabla />
             <Graficas ChartData={ChartData} fetchData={fetchData} />
         </>
 

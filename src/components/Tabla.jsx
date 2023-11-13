@@ -1,73 +1,88 @@
-import { useState } from "react"
+import { useTabla } from "../hooks/useTabla"
+import DataTable, { createTheme } from 'react-data-table-component'
+
+export const Tabla = () => {
+
+	const { tabla, campos, buscar, setBuscar, setFilter, filter } = useTabla()
+
+	const paginationComponentOptions = {
+		rowsPerPageText: 'Filas por página',
+		rangeSeparatorText: 'de',
+		selectAllRowsItem: true,
+		selectAllRowsItemText: 'Todos',
+	};
+
+	createTheme('solarized', {
+		background: {
+			default: '#f8f8f'
+		},
+		divider: {
+			default: '#073642',
+		},
+	});
+
+	const customStyles = {
+		headCells: {
+			style: {
+				paddingLeft: '2px', // override the cell padding for head cells
+				paddingRight: '8px',
+			},
+		},
+		cells: {
+			style: {
+				paddingLeft: '8px', // override the cell padding for data cells
+				paddingRight: '8px',
+			},
+		},
+	};
 
 
-export const Tabla = ({data}) => {
-    
-    const [chartUserData, setChartUserData] = useState({
-        labels: data.map(data=> data['Ubicación']),
-        datasets: [{
-            label: 'Reportes por ubicación',
-            data: data.map(data=> data['Ubicación'])
-        }]
-    })
-  return (
-    <>
-        <table className="table table-bordered border-dark fs-8">
-        <thead className="table-dark">
-                    <tr className="text-center">
-                        <th>#</th>
-                        <th>Ubicación</th>
-                        <th>Empresa</th>
-                        <th>Depto</th>
-                        <th>Usuario Solicitud</th>
-                        <th>Hr. solicitud</th>
-                        <th>Hr. Cierre</th>
-                        <th>Venci</th>
-                        <th>Asignado </th>
-                        <th>Prioridad</th>
-                        <th>Estado</th>
-                        <th>Categoría</th>
-                        <th>Subcategoría</th>
-                        
-                    </tr>
-                </thead>
-                <tbody className="text-center table-group-divider">
-                     {data.map(( item, indice ) =>{
-                        if(indice > 3){ return }
-                        return(
-                            <tr>
-                                <td>{ item['#'] }</td>
-                                <td>{ item['Ubicación'] }</td>
-                                <td>{ item['Empresa'] }</td>
-                                <td>{ item['Departamento'] }</td>
-                                <td>{ item['Usuario de solicitud'] }</td>
-                                <td>{ new Date((item['Hora de solicitud'] - (25567 +2)) * 86400 * 1000).toUTCString() }</td>
-                                <td>{ new Date((item['Hora de cierre'] - (25567 +2)) * 86400 * 1000).toUTCString() }</td>
-                                <td>{ new Date((item['Fecha de vencimiento'] - (25567 +2)) * 86400 * 1000).toUTCString() }</td>
-                                <td>{ item['Asignado a'] }</td>
-                                <td>{ item['Prioridad'] }</td>
-                                <td>{ item['Estado'] }</td>
-                                <td>{ item['Categoría'] }</td>
-                                <td>{ item['Subcategoría'] }</td>
-                            </tr>
-                            
-                        )
-                        
-                     })}
-                        
-                        
-                        {/* <td> dataExcel[item]['Ubicación'] </td>
-                        <td> dataExcel[item]['Usuario de solicitud']</td>
-                        <td style="max-width: 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> new Date((dataExcel[item]['Hora de solicitud'] - (25567 +2)) * 86400 * 1000).toUTCString()</td>
-                        <td style="max-width: 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> new Date((dataExcel[item]['Hora de cierre'] - (25567 +2)) * 86400 * 1000).toUTCString()</td>
-                        <td> dataExcel[item]['Asignado a'] </td>
-                        <td> dataExcel[item]['Categoría'] </td>
-                        <td>dataExcel[item]['Subcategoría'] </td>
-                        <td>dataExcel[item]['Estado'] </td> */}
-                    
-                </tbody>
-        </table>
-        
-    </>
-  )
+
+	let colorCelda = 0;
+	const columns = campos?.map((column) => {
+		colorCelda += 1
+		if (colorCelda % 2 === 0) {
+			return {
+				name: column.toUpperCase(),
+				selector: campos => campos[column],
+				reorder: true,
+
+				style: {
+					backgroundColor: 'rgba(100, 100, 100, 1)',
+				},
+			}
+		} else {
+			return {
+				name: column.toUpperCase(),
+				selector: campos => campos[column],
+				reorder: true,
+				style: {
+					backgroundColor: 'rgba(150, 150, 150, 1)',
+				},
+			}
+		}
+	})
+
+	return (
+		<>
+			<div className="container">
+				<input
+					type="text"
+					className="form-control"
+					placeholder="Buscar"
+					value={buscar}
+					onChange={(e) => setBuscar(e.target.value)}
+				/>
+				<DataTable
+					title='Registros Del Archivo'
+					columns={columns}
+					data={filter}
+					pagination
+					paginationComponentOptions={paginationComponentOptions}
+					customStyles={customStyles}
+					theme="solarized"
+				/>
+			</div>
+		</>
+	)
 }

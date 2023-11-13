@@ -20,13 +20,13 @@ export const Graficas = ({ ChartData },) => {
 
     return (
         <>
-            <div className="container">
+            <div className="row">
                 {ChartData && ChartData.datasets && (
                     <>
-                        <div className="container ">
+                        <div className="col">
                             <Pie data={ChartData}/>
                         </div>
-                        <div className="container ">
+                        <div className="col">
                             <Line data={ChartData} options={options}/>
                         </div>
                     </>

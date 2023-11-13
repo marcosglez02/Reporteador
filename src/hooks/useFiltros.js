@@ -74,10 +74,6 @@ export const useFiltros = () => {
             })
         );
         console.log(todo)
-        // const results = await axios.post('http://localhost:3000/api/categorias', { name: nombreTabla }, {
-        //     Headers: { 'Content-Type': 'application/json' },
-        //   })
-        // console.log(results)
                
     }
 

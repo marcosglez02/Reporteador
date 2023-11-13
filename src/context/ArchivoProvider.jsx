@@ -8,11 +8,12 @@ export const ArchivoProvider = ({children})=>{
     const [prioridad, setPrioridad] = useState([{prioridad:'prioridad'}])
     const [ubicacion, setUbicacion] = useState([{ubicacion:'ubicacion'}])
     const [subcategoria, setSubcategoria] = useState([{subcategoria:'subcategoria'}])
+    const [tabla, setTabla] = useState()
 
     return(
         <ArchivoContext.Provider value={ 
-            {categoria,empresa, departamento, prioridad, ubicacion, subcategoria
-            ,setEmpresa, setCategoria, setDepartamento, setPrioridad, setUbicacion, setSubcategoria} 
+            {categoria,empresa, departamento, prioridad, ubicacion, subcategoria,tabla
+            ,setEmpresa, setCategoria, setDepartamento, setPrioridad, setUbicacion, setSubcategoria,setTabla} 
             }>
             { children }
         </ArchivoContext.Provider>
