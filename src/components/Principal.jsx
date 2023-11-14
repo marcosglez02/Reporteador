@@ -7,13 +7,13 @@ export const Principal = () => {
 
   return (
     <>
-    <div className="bg-secondary">
-      
-    
-      <nav className="bg-dark">
-        <h1 className="text-center text-white pt-4 pb-4">SysReport</h1>
+      <div className="bg-secondary">
+
+
+        <nav className="bg-dark text-center">
+          <p className="fs-1 text-success d-inline-block">Sys</p><p className=" fs-1 d-inline-block text-white">Report</p>
         </nav>
-      {mostradorFiltro ? (<Filtros cambiarEstado={mostradorFiltro}/>) : (<Seleccionador cambiarEstado={setMostradorFiltro}/>)}
+        {mostradorFiltro ? (<Filtros cambiarEstado={mostradorFiltro} />) : (<Seleccionador cambiarEstado={setMostradorFiltro} />)}
       </div>
     </>
   )

@@ -54,14 +54,12 @@ export const Filtros = ({ cambiarEstado }) => {
                         </div>
 
                         <FiltroSelectOrdernarPor cambio={handleInput} datos={filtrado} />
-
-
-                        <div className="row">
-                            <button className='btn btn-success s mt-3 mb-3' type="submit">Enviar</button>
-                            <br />
+                        
+                        <div className="d-grid gap-2">
+                           <button className='btn btn-success mt-3 mb-3 py-2' type="submit">Buscar</button>
                         </div>
-
                     </>
+
 
 
                 </div>

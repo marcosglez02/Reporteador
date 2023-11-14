@@ -24,7 +24,7 @@ export const FiltroSelectOrdernarPor = ({ cambio, datos }) => {
         <div className="row">
             <div className="col mt-2">
                 <label className='form-label'>Ordenar por</label>
-                <select onChange={(e)=>cambiarOrdenamiento(e.target)} className="form-select form-select-sm" aria-label="Small select example" id='ordenar' name='ordenar' required defaultValue={['Todos']}>
+                <select onChange={(e)=>cambiarOrdenamiento(e.target)} className="form-select form-select-sm" aria-label="Small select example" id='ordenar' name='ordenar' required>
                     <option key={0} value="Todos">Seleccione una opcion...</option>
                     
                     {    

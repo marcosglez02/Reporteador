@@ -11,24 +11,22 @@ export const useFiltros = () => {
     const [estadoGrafica, setEstadoGrafica] = useState(false)
 
     // Contexto
-    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor,
-         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor } = useContext(ArchivoContext);
+    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, 
+         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla } = useContext(ArchivoContext);
 
     const handleSubmit = async (event) => {
         const nombreTabla = localStorage.getItem('nombre')
         // Cancelar el evento de recarga de la pagina
          event.preventDefault()
-         console.log(filtrado.ordenar)
 
         if(ordenarPor === undefined || ordenarPor.length === 0 || ordenarPor === 'Todos'){
             alert('Selecciona un filtrado');
-            console.log(ordenarPor)
         }else{
             
         // Peticion post a la api 
-        await axios.post('http://localhost:3000/api/filtrado', [filtrado, {name: nombreTabla, ordenamiento: ordenarPor}] ,{headers: {"Content-Type": "application/json"}})
-            .then(response => setdatosPost(response.data))
-            .catch(error => console.log(error))
+        const respuesta = await axios.post('http://localhost:3000/api/filtrado', [filtrado, {name: nombreTabla, ordenamiento: ordenarPor}] ,{headers: {"Content-Type": "application/json"}})
+        setdatosPost(respuesta.data.respuesta)
+        setTabla(respuesta.data.respuesta2)
              //setEstadoGrafica(true);
         console.log('HandleSubmit')
         }
