@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { useGraficas } from "../hooks"
 import { ArchivoContext } from "../context/ArchivoContext"
-import { Line, Pie } from "react-chartjs-2"
+import { Bar, Line, Pie } from "react-chartjs-2"
 
 const obtenerTablas = ()=>{
     return JSON.parse(localStorage.getItem('graficas'))
@@ -46,18 +46,32 @@ export const GraficasReporte = () => {
             
             {
                 cambio.map(tabla =>{
-                   return (
-                    <>
-                    
-                    
-                            <div className="col d-flex align-items-center">
+                    if(tabla.tipo === 'pie'){
+                        return(
+                            <>
+                            <div className="col-auto d-flex align-items-center">
                                 <Pie data={tabla.payload} />
                             </div>
-                            <div className="col d-flex align-items-center">
+                            </>
+                        )
+                    }else if(tabla.tipo === 'line'){
+                        return (
+                            <>
+                            <div className="col-auto d-flex align-items-center">
                                 <Line data={tabla.payload} options={options} />
                             </div>
-                    </>
-                   )
+                            </>
+                        )
+                    }else if (tabla.tipo === 'barra'){
+                        return (
+                            <>
+                            <div className="col-auto d-flex align-items-center">
+                                <Bar data={tabla.payload} options={options} />
+                            </div>
+                            </>
+                        )
+                    }
+                
                 })
             }
             </div>

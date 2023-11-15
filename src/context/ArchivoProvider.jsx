@@ -18,8 +18,8 @@ export const ArchivoProvider = ({children})=>{
 
     return(
         <ArchivoContext.Provider value={ 
-            {categoria,empresa, departamento, prioridad, ubicacion, subcategoria, ordenamiento,filtrado, ordenarPor, datosPost, contador, actualizador,
-            setEmpresa, setCategoria, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setdatosPost, setContador, setActualizador} 
+            {categoria,empresa, departamento, prioridad, ubicacion, subcategoria, ordenamiento,filtrado, ordenarPor, datosPost, contador, actualizador, tabla,
+            setEmpresa, setCategoria, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setdatosPost, setContador, setActualizador, setTabla} 
             }>
             { children }
         </ArchivoContext.Provider>

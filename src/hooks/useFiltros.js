@@ -18,6 +18,8 @@ export const useFiltros = () => {
     const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, contador, datosPost,
         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla, setdatosPost, setContador } = useContext(ArchivoContext);
 
+    const {handleNewGrafica} = useGraficas();
+
     const handleSubmit = async (event) => {
         const nombreTabla = localStorage.getItem('nombre')
         // Cancelar el evento de recarga de la pagina
@@ -121,9 +123,18 @@ export const useFiltros = () => {
     }
 
     const onNewGrafica = ()=>{
-        console.log('Entró al onNewGrafica')
+        let tipo= ''
+        if(mostrarBarChart){
+            tipo='barra'
+        }else if(mostrarLineChart){
+            tipo='line'
+        }else{
+            tipo='pie'
+        }
+
         const newGrafica = {
             id: contador,
+            tipo,
             payload: ChartData
         }
         setContador(contador+1)
@@ -154,6 +165,7 @@ export const useFiltros = () => {
         mostrarLineChart,
         mostrarBarChart,
         filtrado,
+        onNewGrafica,
         categoria, empresa, departamento, prioridad, subcategoria, ubicacion
     }
 

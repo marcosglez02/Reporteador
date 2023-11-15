@@ -66,9 +66,7 @@ export const Filtros = ({ cambiarEstado }) => {
                     <>
                         
                         <h4 className='text-center'>Previsualización de las gráficas</h4>
-                        <div className='container text-end bg-white'>
-                            <button className='btn btn-success my-2' onClick={ onNewGrafica }>Agregar al reporte</button>
-                        </div>
+
                         
                         <Graficas ChartData={ChartData} fetchData={fetchData} />
                         
