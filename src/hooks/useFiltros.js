@@ -15,7 +15,7 @@ export const useFiltros = () => {
 
     // Contexto
     const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, datosPost,
-         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla ,setdatosPost } = useContext(ArchivoContext);
+         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla ,setdatosPost, setTabla } = useContext(ArchivoContext);
 
     const handleSubmit = async (event) => {
         const nombreTabla = localStorage.getItem('nombre')
@@ -27,9 +27,9 @@ export const useFiltros = () => {
         }else{
             
         // Peticion post a la api 
-        const respuesta = await axios.post('http://localhost:3000/api/filtrado', [filtrado, {name: nombreTabla, ordenamiento: ordenarPor}] ,{headers: {"Content-Type": "application/json"}})
-        setdatosPost(respuesta.data.respuesta)
-        setTabla(respuesta.data.respuesta2)
+        await axios.post('http://localhost:3000/api/filtrado', [filtrado, {name: nombreTabla, ordenamiento: ordenarPor}] ,{headers: {"Content-Type": "application/json"}})
+            .then(response => setdatosPost(response.data))
+            .catch(error => console.log(error))
              //setEstadoGrafica(true);
         console.log('HandleSubmit')
         }

@@ -19,13 +19,12 @@ export const helperInsertarDato = async (fileContent, cambiarEstado)=>{
       Headers: { 'Content-Type': 'application/json' }
     })
 
-    console.log(res.data)
   }
 
   localStorage.setItem('nombre', nombreTabla)
 
   try {
-    console.log('Entró al try')
+    
     const respuesta = await axios.post('http://localhost:3000/api/insertarExcelReactTabla', { name: nombreTabla }, {
       Headers: { 'Content-Type': 'application/json' }
     })
@@ -34,12 +33,12 @@ export const helperInsertarDato = async (fileContent, cambiarEstado)=>{
     const resDatos = await axios.post('http://localhost:3000/api/insertarExcelReact', { content: datos, name: nombreTabla }, {
         Headers: { 'Content-Type': 'application/json' },
     })
-    console.log(resDatos.data)
+    
 
   } catch (error) {
     console.log(error)
   }finally{
-      console.log('AFUERA DEL TRY')
+      
       cambiarEstado(true)
   }
 
