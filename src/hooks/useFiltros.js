@@ -6,13 +6,16 @@ import { ArchivoContext } from "../context/ArchivoContext"
 export const useFiltros = () => {
     const [todo, setTodo] = useState([])
     //const [filtrado, setFiltrado] = useState({})
-    const [datosPost, setdatosPost] = useState([])
     const [ChartData, setChartData] = useState({})
     const [estadoGrafica, setEstadoGrafica] = useState(false)
+    const [mostrarPieChart, setMostrarPieChart] = useState(true);
+    const [mostrarLineChart, setMostrarLineChart] = useState(false);
+    const [mostrarBarChart, setMostrarBarChart] = useState(false);
+    
 
     // Contexto
-    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, 
-         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla } = useContext(ArchivoContext);
+    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, datosPost,
+         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla ,setdatosPost } = useContext(ArchivoContext);
 
     const handleSubmit = async (event) => {
         const nombreTabla = localStorage.getItem('nombre')
@@ -33,23 +36,38 @@ export const useFiltros = () => {
 
     }
 
+    const togglePieChart = () => {
+        setMostrarLineChart(false)
+        setMostrarBarChart(false)
+        setMostrarPieChart(!mostrarPieChart)
+    };
+
+    const toggleLineChart = () => {
+        setMostrarPieChart(false)
+        setMostrarBarChart(false)
+        setMostrarLineChart(!mostrarLineChart)
+    };
+
+    const toggleBarChart = () => {
+        setMostrarPieChart(false)
+        setMostrarLineChart(false)
+        setMostrarBarChart(!mostrarBarChart)
+    };
 
     const fetchData = () => {
         setChartData({
             labels: datosPost.map(element => element.labels),
             datasets: [{
                 fill: true,
-                label: '# de Categorias en Prioridad Alta',
+                label: 'Numero de tickets',
                 data: datosPost.map(element => element.numero),
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(0, 85, 247, 0.8)',
-                ],
+                borderColor: ['rgba(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 206, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(153, 102, 255)',
+                'rgb(255, 159, 64)',
+                'rgb(0, 85, 247)'],
                 backgroundColor: ['rgba(255, 99, 132)',
                     'rgb(54, 162, 235)',
                     'rgb(255, 206, 86)',
@@ -95,9 +113,7 @@ export const useFiltros = () => {
                 setSubcategoria(subcategoria);
                 
             })
-        );
-        console.log(todo)
-               
+        );     
     }
 
     useEffect(() => {
@@ -105,6 +121,9 @@ export const useFiltros = () => {
             fetchData()
         }
     }, [datosPost])
+
+    
+
 
 return {
     todo, 
@@ -114,6 +133,12 @@ return {
     handleSubmit, 
     peticionesGet,
     fetchData,
+    toggleLineChart,
+    togglePieChart,
+    toggleBarChart,
+    mostrarPieChart,
+    mostrarLineChart,
+    mostrarBarChart,
     filtrado, 
     categoria, empresa, departamento, prioridad, subcategoria, ubicacion 
 }

@@ -20,8 +20,7 @@ export const Tabla = () => {
 			default: '#073642',
 		},
 	});
-
-	const contador = 8;
+	
 	const columns = campos?.map((column) => {
 
 		if (column == 'prioridad') {
@@ -115,17 +114,6 @@ export const Tabla = () => {
 	})
 
 
-	const conditionalRowStyles = [
-		{
-			when: contador=> contador % 2 === 0,
-			style: {
-				backgroundColor: 'rgba(63, 195, 128, 0.9)',
-			}
-		},
-	];
-
-
-
 	return (
 		<>
 			<div className="container">
@@ -143,8 +131,6 @@ export const Tabla = () => {
 					pagination
 					paginationComponentOptions={paginationComponentOptions}
 					theme="solarized"
-					conditionalRowStyles={conditionalRowStyles}
-
 				/>
 			</div>
 		</>

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
-import { Seleccionador, Filtros } from "./"
+import { Seleccionador, Filtros} from "./"
+
+
 
 export const Principal = () => {
 

@@ -9,7 +9,7 @@ import { Tabla } from './Tabla';
 export const Filtros = ({ cambiarEstado }) => {
 
     const { categoria, empresa, ubicacion, prioridad, subcategoria, departamento,
-        ChartData, estadoGrafica, handleInput, handleSubmit, peticionesGet, fetchData, filtrado } = useFiltros()
+        ChartData, estadoGrafica, handleInput, handleSubmit, peticionesGet, filtrado } = useFiltros()
 
 
     useEffect(() => {
@@ -54,9 +54,9 @@ export const Filtros = ({ cambiarEstado }) => {
                         </div>
 
                         <FiltroSelectOrdernarPor cambio={handleInput} datos={filtrado} />
-                        
+
                         <div className="d-grid gap-2">
-                           <button className='btn btn-success mt-3 mb-3 py-2' type="submit">Buscar</button>
+                            <button className='btn btn-success mt-3 mb-3 py-2' type="submit">Buscar</button>
                         </div>
                     </>
 
@@ -66,7 +66,7 @@ export const Filtros = ({ cambiarEstado }) => {
             </form>
 
             <Tabla />
-            <Graficas ChartData={ChartData} fetchData={fetchData} />
+            <Graficas ChartData={ChartData} />
         </>
 
 
