@@ -13,6 +13,7 @@ export const ArchivoProvider = ({children})=>{
     const [ordenarPor, setOrdenarPor] = useState([])
     const [tabla, setTabla] = useState([])
     const [datosPost, setdatosPost] = useState([])
+    
 
     return(
         <ArchivoContext.Provider value={ 

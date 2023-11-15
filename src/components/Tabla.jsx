@@ -20,7 +20,7 @@ export const Tabla = () => {
 			default: '#073642',
 		},
 	});
-	
+
 	const columns = campos?.map((column) => {
 
 		if (column == 'prioridad') {
@@ -72,7 +72,7 @@ export const Tabla = () => {
 					},
 				]
 			}
-		}else if (column == 'horaSolicitud' || column == 'horaCierre' || column == 'fechaVencimiento') {
+		} else if (column == 'horaSolicitud' || column == 'horaCierre' || column == 'fechaVencimiento') {
 			return {
 				name: column.toUpperCase(),
 				selector: campos => moment(campos[column]).format('lll'),
@@ -132,6 +132,7 @@ export const Tabla = () => {
 					paginationComponentOptions={paginationComponentOptions}
 					theme="solarized"
 				/>
+
 			</div>
 		</>
 	)

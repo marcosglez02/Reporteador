@@ -12,7 +12,6 @@ export const useFiltros = () => {
     const [mostrarLineChart, setMostrarLineChart] = useState(false);
     const [mostrarBarChart, setMostrarBarChart] = useState(false);
 
-
     // Contexto
     const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, datosPost,
         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla, setdatosPost } = useContext(ArchivoContext);
