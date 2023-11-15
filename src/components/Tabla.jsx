@@ -1,4 +1,4 @@
-import { useTabla } from "../hooks/useTabla"
+import { useTabla } from "../hooks"
 import DataTable, { createTheme } from 'react-data-table-component'
 
 export const Tabla = () => {

@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 import { Graficas } from './Graficas';
-import { useFiltros } from '../hooks/';
+import { useFiltros, useGraficas } from '../hooks/';
 import { FiltrosSelects } from './FiltrosSelects';
 import { FiltroSelectOrdernarPor } from './FiltroSelectOrdernarPor';
 import { Tabla } from './Tabla';
+import { GraficasReporte } from './GraficasReporte';
 
 
 export const Filtros = ({ cambiarEstado }) => {
 
-    const { categoria, empresa, ubicacion, prioridad, subcategoria, departamento,
-        ChartData, estadoGrafica, handleInput, handleSubmit, peticionesGet, fetchData, filtrado } = useFiltros()
-
+    const { categoria, empresa, ubicacion, prioridad, subcategoria, departamento, contador,
+        ChartData, estadoGrafica, handleInput, handleSubmit, peticionesGet, fetchData, filtrado, onNewGrafica } = useFiltros()
+    
 
     useEffect(() => {
         if (cambiarEstado) {
@@ -18,15 +19,10 @@ export const Filtros = ({ cambiarEstado }) => {
         }
     }, [cambiarEstado])
 
-
-
-
     return (
         <>
             <form onSubmit={handleSubmit} >
                 <div className='container'>
-
-
 
                     <>
                         <div className="row">
@@ -56,16 +52,33 @@ export const Filtros = ({ cambiarEstado }) => {
                         <FiltroSelectOrdernarPor cambio={handleInput} datos={filtrado} />
 
                         <div class="d-grid gap-2">
-                           <button className='btn btn-success mt-3 mb-3 py-2' type="submit">Buscar</button>
+                           <button className='btn btn-success mt-3 mb-3 py-2' type="submit" >Buscar</button>
                         </div>
                     </>
 
 
                 </div>
             </form>
-
+            
             <Tabla />
-            <Graficas ChartData={ChartData} fetchData={fetchData} />
+            {
+                
+            contador !==0 &&(
+                    <>
+                        
+                        <h4 className='text-center'>Previsualización de las gráficas</h4>
+                        <div className='container text-end bg-white'>
+                            <button className='btn btn-success my-2' onClick={ onNewGrafica }>Agregar al reporte</button>
+                        </div>
+                        
+                        <Graficas ChartData={ChartData} fetchData={fetchData} />
+                        
+                    </>
+                    
+                )
+            }
+            <GraficasReporte/>
+                        
         </>
 
 

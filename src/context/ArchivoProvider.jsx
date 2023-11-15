@@ -12,11 +12,13 @@ export const ArchivoProvider = ({children})=>{
     const [filtrado, setFiltrado] = useState({})
     const [ordenarPor, setOrdenarPor] = useState([])
     const [tabla, setTabla] = useState([])
+    const [contador, setContador] = useState(0)
+    const [actualizador, setActualizador] = useState(true)
     
     return(
         <ArchivoContext.Provider value={ 
-            {categoria,empresa, departamento, prioridad, ubicacion, subcategoria,tabla, ordenamiento,filtrado, ordenarPor,tabla,
-            setEmpresa, setCategoria, setDepartamento, setPrioridad, setUbicacion, setSubcategoria,setTabla, setFiltrado, setOrdenarPor,setTabla} 
+            {categoria,empresa, departamento, prioridad, ubicacion, subcategoria, ordenamiento,filtrado, ordenarPor,tabla, contador, actualizador,
+            setEmpresa, setCategoria, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor,setTabla, setContador, setActualizador} 
             }>
             { children }
         </ArchivoContext.Provider>

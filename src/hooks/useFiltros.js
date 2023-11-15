@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { URLs } from '../common/URLs'
 import axios from "axios"
 import { ArchivoContext } from "../context/ArchivoContext"
+import { useGraficas } from "./useGraficas"
 
 export const useFiltros = () => {
     const [todo, setTodo] = useState([])
@@ -9,10 +10,11 @@ export const useFiltros = () => {
     const [datosPost, setdatosPost] = useState([])
     const [ChartData, setChartData] = useState({})
     const [estadoGrafica, setEstadoGrafica] = useState(false)
+    const { handleNewGrafica } = useGraficas()
 
     // Contexto
-    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor,
-         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla } = useContext(ArchivoContext);
+    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, contador,
+         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla, setContador } = useContext(ArchivoContext);
 
     const handleSubmit = async (event) => {
         const nombreTabla = localStorage.getItem('nombre')
@@ -27,6 +29,7 @@ export const useFiltros = () => {
             
         // Peticion post a la api 
        const res =  await axios.post('http://localhost:3000/api/filtrado', [filtrado, {name: nombreTabla, ordenamiento: ordenarPor}] ,{headers: {"Content-Type": "application/json"}})
+       alert(`Se encontraron ${res.data.respuesta2.length} registros`)
        setdatosPost(res.data.respuesta)     
        setTabla(res.data.respuesta2)
              //setEstadoGrafica(true);
@@ -98,8 +101,17 @@ export const useFiltros = () => {
                 
             })
         );
-        console.log(todo)
-               
+           
+    }
+
+    const onNewGrafica = ()=>{
+        console.log('Entró al onNewGrafica')
+        const newGrafica = {
+            id: contador,
+            payload: ChartData
+        }
+        setContador(contador+1)
+        handleNewGrafica(newGrafica)
     }
 
     useEffect(() => {
@@ -113,7 +125,8 @@ return {
     ChartData, 
     estadoGrafica, 
     handleInput, 
-    handleSubmit, 
+    handleSubmit,
+    onNewGrafica, 
     peticionesGet,
     fetchData,
     filtrado, 

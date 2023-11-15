@@ -13,7 +13,7 @@ export const Graficas = ({ ChartData },) => {
             },
             title: {
                 display: true,
-                text: 'Panchitos',
+                text: '',
             },
         },
     };
@@ -21,7 +21,7 @@ export const Graficas = ({ ChartData },) => {
     return (
         <>
             <div className="container">
-                <div className="row bg-light">
+                <div className="row bg-white">
                     {ChartData && ChartData.datasets && (
                         <>
                             <div className="col d-flex align-items-center">
