@@ -1,10 +1,10 @@
 import { useTabla } from "../hooks"
 import DataTable, { createTheme } from 'react-data-table-component'
+import moment from 'moment';
 
 export const Tabla = () => {
 
 	const { tabla, campos, buscar, setBuscar, setFilter, filter } = useTabla()
-
 	const paginationComponentOptions = {
 		rowsPerPageText: 'Filas por página',
 		rangeSeparatorText: 'de',
@@ -20,48 +20,99 @@ export const Tabla = () => {
 			default: '#073642',
 		},
 	});
-
-	const customStyles = {
-		headCells: {
-			style: {
-				paddingLeft: '2px', // override the cell padding for head cells
-				paddingRight: '8px',
-			},
-		},
-		cells: {
-			style: {
-				paddingLeft: '8px', // override the cell padding for data cells
-				paddingRight: '8px',
-			},
-		},
-	};
-
-
-
-	let colorCelda = 0;
+	
 	const columns = campos?.map((column) => {
-		colorCelda += 1
-		if (colorCelda % 2 === 0) {
+
+		if (column == 'prioridad') {
 			return {
 				name: column.toUpperCase(),
 				selector: campos => campos[column],
 				reorder: true,
+				conditionalCellStyles: [
 
-				style: {
-					backgroundColor: 'rgba(100, 100, 100, 1)',
-				},
+					{
+						when: campos => campos.prioridad == "Baja",
+						style: {
+							backgroundColor: 'rgb(77, 77, 255)',
+							color: 'black',
+							'&:hover': {
+								cursor: 'pointer',
+							},
+						},
+					},
+					{
+						when: campos => campos.prioridad == "Normal",
+						style: {
+							backgroundColor: 'rgba(63, 195, 128, 0.9)',
+							color: 'black',
+							'&:hover': {
+								cursor: 'pointer',
+							},
+						},
+					},
+					{
+						when: campos => campos.prioridad == "Alta",
+						style: {
+							backgroundColor: 'rgba(248, 148, 6, 0.9)',
+							color: 'black',
+							'&:hover': {
+								cursor: 'pointer',
+							},
+						},
+					},
+					{
+						when: campos => campos.prioridad == "Muy Alta",
+						style: {
+							backgroundColor: 'rgba(242, 38, 19, 0.9)',
+							color: 'black',
+							'&:hover': {
+								cursor: 'pointer',
+							},
+						},
+					},
+				]
+			}
+		}else if (column == 'horaSolicitud' || column == 'horaCierre' || column == 'fechaVencimiento') {
+			return {
+				name: column.toUpperCase(),
+				selector: campos => moment(campos[column]).format('lll'),
+				reorder: true,
+				width: '175px',
+				conditionalCellStyles: [
+					{
+						when: campos => campos,
+						style: {
+							backgroundColor: 'rgb(202, 202, 202)',
+							color: 'black',
+							'&:hover': {
+								cursor: 'pointer',
+							},
+						},
+					}
+				],
 			}
 		} else {
 			return {
 				name: column.toUpperCase(),
 				selector: campos => campos[column],
 				reorder: true,
-				style: {
-					backgroundColor: 'rgba(150, 150, 150, 1)',
-				},
+				conditionalCellStyles: [
+					{
+						when: campos => campos,
+						style: {
+							backgroundColor: 'rgb(202, 202, 202)',
+							color: 'black',
+							'&:hover': {
+								cursor: 'pointer',
+							},
+						},
+					}
+				]
+
 			}
 		}
 	})
+
 
 	return (
 		<>
@@ -79,7 +130,6 @@ export const Tabla = () => {
 					data={filter}
 					pagination
 					paginationComponentOptions={paginationComponentOptions}
-					customStyles={customStyles}
 					theme="solarized"
 				/>
 			</div>

@@ -5,42 +5,43 @@ import { ArchivoContext } from "../context/ArchivoContext"
 export const useTabla = () => {
     // Agarrar el contexto
     const { tabla, setTabla } = useContext(ArchivoContext);
-    const [ campos, setCampos ] = useState()
-    const [ buscar, setBuscar] = useState('');
-    const [ filter, setFilter] = useState('');
+    const [campos, setCampos] = useState()
+    const [buscar, setBuscar] = useState('');
+    const [filter, setFilter] = useState('');
 
     useEffect(() => {
         peticionTabla()
     }, [])
 
-    useEffect(()=>{
-        const result = tabla?.filter((item)=>{
+    useEffect(() => {
+        const result = tabla?.filter((item) => {
             return (
-            item.id?.toString().toLowerCase().includes(buscar?.toString().toLocaleLowerCase()) || 
-            item.ubicacion?.toLowerCase().includes(buscar?.toLocaleLowerCase()) || 
-            item.empresa?.toLowerCase().includes(buscar?.toLocaleLowerCase()) || 
-            item.departamento?.toLowerCase().includes(buscar?.toLocaleLowerCase()) ||
-            item.usuarioSolicitud?.toLowerCase().includes(buscar?.toLocaleLowerCase()) || 
-            item.horaSolicitud?.toLowerCase().includes(buscar?.toLocaleLowerCase()) 
+                item.id?.toString().toLowerCase().includes(buscar?.toString().toLocaleLowerCase()) ||
+                item.ubicacion?.toLowerCase().includes(buscar?.toLocaleLowerCase()) ||
+                item.empresa?.toLowerCase().includes(buscar?.toLocaleLowerCase()) ||
+                item.departamento?.toLowerCase().includes(buscar?.toLocaleLowerCase()) ||
+                item.usuarioSolicitud?.toLowerCase().includes(buscar?.toLocaleLowerCase()) ||
+                item.horaSolicitud?.toLowerCase().includes(buscar?.toLocaleLowerCase()) ||
+                item.prioridad?.toLowerCase().includes(buscar?.toLocaleLowerCase())
             )
         });
         setFilter(result);
 
-    },[buscar])
+    }, [buscar])
 
     useEffect(() => {
-        if(tabla && Array.isArray(tabla) && tabla.length != 0){
+        if (tabla && Array.isArray(tabla) && tabla.length != 0) {
             setCampos(Object.keys(tabla[0]))
         }
     }, [tabla])
 
     useEffect(() => {
-        if(tabla.length != 0){
+        if (tabla.length != 0) {
             setFilter(tabla)
         }
-        
+
     }, [tabla])
-    
+
 
 
     const peticionTabla = async () => {
@@ -52,6 +53,6 @@ export const useTabla = () => {
     }
 
     return {
-        tabla, peticionTabla,campos, buscar, setBuscar, filter,setFilter
+        tabla, peticionTabla, campos, buscar, setBuscar, filter, setFilter
     }
 }
