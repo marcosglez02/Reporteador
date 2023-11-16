@@ -1,5 +1,5 @@
 import React from 'react'
-import { Document, Page, View, Text, Image } from '@react-pdf/renderer'
+import { Document, Page, View, Text, Image, PDFViewer } from '@react-pdf/renderer'
 
 export const PDF = ({ }) => {
     return (

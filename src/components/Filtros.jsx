@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
 import { Graficas } from './Graficas';
-import { useFiltros } from '../hooks/';
+import { useFiltros, useGraficas } from '../hooks/';
 import { FiltrosSelects } from './FiltrosSelects';
 import { FiltroSelectOrdernarPor } from './FiltroSelectOrdernarPor';
 import { Tabla } from './Tabla';
+import { GraficasReporte } from './GraficasReporte';
+import { PDF } from './PDF';
+import { PDFViewer } from '@react-pdf/renderer';
 
 
 export const Filtros = ({ cambiarEstado }) => {
 
-    const { categoria, empresa, ubicacion, prioridad, subcategoria, departamento,
-        ChartData, estadoGrafica, handleInput, handleSubmit, peticionesGet, filtrado } = useFiltros()
-
+    const { categoria, empresa, ubicacion, prioridad, subcategoria, departamento, contador,
+        ChartData, estadoGrafica, handleInput, handleSubmit, peticionesGet, fetchData, filtrado, onNewGrafica } = useFiltros()
+    
 
     useEffect(() => {
         if (cambiarEstado) {
@@ -18,15 +21,10 @@ export const Filtros = ({ cambiarEstado }) => {
         }
     }, [cambiarEstado])
 
-
-
-
     return (
         <>
             <form onSubmit={handleSubmit} >
                 <div className='container'>
-
-
 
                     <>
                         <div className="row">
@@ -62,9 +60,23 @@ export const Filtros = ({ cambiarEstado }) => {
 
                 </div>
             </form>
-
+            
             <Tabla />
-            <Graficas ChartData={ChartData} />
+            {
+                
+            contador !==0 &&(
+                    <>
+                        
+                        <h4 className='text-center'>Previsualización de las gráficas</h4>
+
+                        
+                        <Graficas ChartData={ChartData} fetchData={fetchData} />
+                        
+                    </>
+                    
+                )
+            }
+            <GraficasReporte/>
         </>
 
 

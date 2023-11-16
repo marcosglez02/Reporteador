@@ -8,12 +8,23 @@ export const useTabla = () => {
     const [campos, setCampos] = useState()
     const [buscar, setBuscar] = useState('');
     const [filter, setFilter] = useState('');
+    const [idPositions, setIdPositions] = useState({});
+
+
+    const handlePosition=()=>{
+        const positions = {};
+        tabla.forEach((item, index) => {
+          positions[item.id] = index;
+        });
+        setIdPositions(positions);
+    }
 
     useEffect(() => {
         peticionTabla()
     }, [])
 
     useEffect(() => {
+        
         const result = tabla?.filter((item) => {
             return (
                 item.id?.toString().toLowerCase().includes(buscar?.toString().toLocaleLowerCase()) ||
@@ -22,14 +33,16 @@ export const useTabla = () => {
                 item.departamento?.toLowerCase().includes(buscar?.toLocaleLowerCase()) ||
                 item.usuarioSolicitud?.toLowerCase().includes(buscar?.toLocaleLowerCase()) ||
                 item.horaSolicitud?.toLowerCase().includes(buscar?.toLocaleLowerCase()) ||
-                item.prioridad?.toLowerCase().includes(buscar?.toLocaleLowerCase())
-            )
+                item.prioridad?.toLowerCase().includes(buscar?.toLocaleLowerCase()) ||
+                item.horaCierre?.toLowerCase().includes(buscar?.toLocaleLowerCase()) ||
+                item.fechaVencimiento?.toLowerCase().includes(buscar?.toLocaleLowerCase())
+                )
         });
         setFilter(result);
-
     }, [buscar])
 
     useEffect(() => {
+        
         if (tabla && Array.isArray(tabla) && tabla.length != 0) {
             setCampos(Object.keys(tabla[0]))
         }
@@ -53,6 +66,6 @@ export const useTabla = () => {
     }
 
     return {
-        tabla, peticionTabla, campos, buscar, setBuscar, filter, setFilter
+        tabla, peticionTabla, campos, buscar, setBuscar, filter, setFilter, idPositions
     }
 }

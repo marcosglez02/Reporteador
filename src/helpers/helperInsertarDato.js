@@ -21,6 +21,12 @@ export const helperInsertarDato = async (fileContent, cambiarEstado)=>{
 
   }
 
+  const graficasAntiguas = localStorage.getItem('graficas');
+
+  if(graficasAntiguas){
+    localStorage.removeItem('graficas');
+  }
+
   localStorage.setItem('nombre', nombreTabla)
 
   try {

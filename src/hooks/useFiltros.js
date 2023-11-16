@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { URLs } from '../common/URLs'
 import axios from "axios"
 import { ArchivoContext } from "../context/ArchivoContext"
+import { useGraficas } from "./useGraficas"
 
 export const useFiltros = () => {
     const [todo, setTodo] = useState([])
@@ -13,8 +14,10 @@ export const useFiltros = () => {
     const [mostrarBarChart, setMostrarBarChart] = useState(false);
 
     // Contexto
-    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, datosPost,
-        setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla, setdatosPost } = useContext(ArchivoContext);
+    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, contador, datosPost,
+        setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla, setdatosPost, setContador } = useContext(ArchivoContext);
+
+    const {handleNewGrafica} = useGraficas();
 
     const handleSubmit = async (event) => {
         const nombreTabla = localStorage.getItem('nombre')
@@ -23,14 +26,16 @@ export const useFiltros = () => {
 
         if (ordenarPor === undefined || ordenarPor.length === 0 || ordenarPor === 'Todos') {
             alert('Selecciona un filtrado');
-        } else {
-
-            // Peticion post a la api 
-            const respuesta = await axios.post('http://localhost:3000/api/filtrado', [filtrado, { name: nombreTabla, ordenamiento: ordenarPor }], { headers: { "Content-Type": "application/json" } })
-            setdatosPost(respuesta.data.respuesta)
-            setTabla(respuesta.data.respuesta2)
-            //setEstadoGrafica(true);
-            console.log('HandleSubmit')
+            console.log(ordenarPor)
+        }else{
+            
+        // Peticion post a la api 
+       const res =  await axios.post('http://localhost:3000/api/filtrado', [filtrado, {name: nombreTabla, ordenamiento: ordenarPor}] ,{headers: {"Content-Type": "application/json"}})
+       alert(`Se encontraron ${res.data.respuesta2.length} registros`)
+       setdatosPost(res.data.respuesta)     
+       setTabla(res.data.respuesta2)
+             //setEstadoGrafica(true);
+        console.log('HandleSubmit')
         }
 
     }
@@ -113,7 +118,33 @@ export const useFiltros = () => {
 
             })
         );
+           
     }
+
+    const onNewGrafica = ()=>{
+        let tipo= ''
+        if(mostrarBarChart){
+            tipo='barra'
+        }else if(mostrarLineChart){
+            tipo='line'
+        }else{
+            tipo='pie'
+        }
+
+        const newGrafica = {
+            id: contador,
+            tipo,
+            payload: ChartData
+        }
+        setContador(contador+1)
+        handleNewGrafica(newGrafica)
+    }
+
+    function printHTML() { 
+        if (window.print) { 
+          window.print(); 
+        } 
+      }
 
     useEffect(() => {
         if (datosPost.length != 0) {
@@ -138,7 +169,9 @@ export const useFiltros = () => {
         mostrarPieChart,
         mostrarLineChart,
         mostrarBarChart,
+        printHTML,
         filtrado,
+        onNewGrafica,
         categoria, empresa, departamento, prioridad, subcategoria, ubicacion
     }
 

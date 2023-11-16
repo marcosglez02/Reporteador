@@ -1,10 +1,10 @@
-import { useTabla } from "../hooks/useTabla"
+import { useTabla } from "../hooks"
 import DataTable, { createTheme } from 'react-data-table-component'
-import moment from 'moment';
+
 
 export const Tabla = () => {
 
-	const { tabla, campos, buscar, setBuscar, setFilter, filter } = useTabla()
+	const { tabla, campos, buscar, setBuscar, setFilter, filter, idPositions } = useTabla()
 	const paginationComponentOptions = {
 		rowsPerPageText: 'Filas por página',
 		rangeSeparatorText: 'de',
@@ -75,7 +75,7 @@ export const Tabla = () => {
 		} else if (column == 'horaSolicitud' || column == 'horaCierre' || column == 'fechaVencimiento') {
 			return {
 				name: column.toUpperCase(),
-				selector: campos => moment(campos[column]).format('lll'),
+				selector: campos => campos[column],
 				reorder: true,
 				width: '175px',
 				conditionalCellStyles: [
@@ -107,7 +107,7 @@ export const Tabla = () => {
 							},
 						},
 					}
-				]
+				],
 
 			}
 		}
