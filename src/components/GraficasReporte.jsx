@@ -54,12 +54,8 @@ export const GraficasReporte = () => {
     };
 
     const div2PDF = (e) => {
-        /////////////////////////////
-        // Hide/show button if you need
-        /////////////////////////////
-    
         const but = e.target;
-        but.style.display = "none";
+        but.style.display = "none"; 
         let input = window.document.getElementsByClassName("example")[0];
     
         html2canvas(input).then(canvas => {
@@ -68,7 +64,7 @@ export const GraficasReporte = () => {
           const pdf = new pdfConverter("l", "pt");
           pdf.addImage(
             img,
-            "png",0,0,500,500
+            "png",0,0,500,500,'undefined','FAST'
           );
           pdf.save("chart.pdf");
           but.style.display = "block";
@@ -99,7 +95,7 @@ export const GraficasReporte = () => {
                             } else if (tabla.tipo === 'line') {
                                 return (
                                     <>
-                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center">
+                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="example col-md-11 d-flex align-items-center">
                                             <Line data={tabla.payload} options={optionsBar} />
                                         </div>
                                     </>
