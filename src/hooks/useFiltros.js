@@ -1,8 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { URLs } from '../common/URLs'
 import axios from "axios"
-import { ArchivoContext } from "../context/ArchivoContext"
-import { useGraficas } from "./useGraficas"
+import { ArchivoContext, GraficasContext } from "../context"
 
 export const useFiltros = () => {
     const [todo, setTodo] = useState([])
@@ -18,7 +17,7 @@ export const useFiltros = () => {
     const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, contador, datosPost,
         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla, setdatosPost, setContador } = useContext(ArchivoContext);
 
-    const {handleNewGrafica} = useGraficas();
+    const {handleNewGrafica} = useContext(GraficasContext);
 
     const handleSubmit = async (event) => {
         const nombreTabla = localStorage.getItem('nombre')
@@ -140,6 +139,10 @@ export const useFiltros = () => {
         setContador(contador+1)
         handleNewGrafica(newGrafica)
     }
+
+    // const onDeleteGrafica = (id)=>{
+    //     console.log('el id a eliminar es ', id)
+    // }
 
     useEffect(() => {
         if (datosPost.length != 0) {

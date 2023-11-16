@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { useGraficas } from "../hooks"
-import { ArchivoContext } from "../context/ArchivoContext"
+import { ArchivoContext,GraficasContext } from "../context"
 import { Bar, Line, Pie } from "react-chartjs-2"
 
 const obtenerTablas = ()=>{
@@ -8,16 +7,13 @@ const obtenerTablas = ()=>{
 }
 
 export const GraficasReporte = () => {
-    console.log('Se generó el graficas reportes')
 
-    const {graficas, contadorGraficas} = useGraficas()
+    const {handleDeleteGrafica} = useContext(GraficasContext)
 
     const [cambio, setCambio] = useState()
 
     const { actualizador } = useContext(ArchivoContext);
-
-    const tablas = JSON.parse(localStorage.getItem('graficas'))
-    console.log('Las tablas son',tablas)
+    
 
     useEffect(() => {
        setCambio(obtenerTablas());
@@ -27,7 +23,7 @@ export const GraficasReporte = () => {
         responsive: true,
         plugins: {
             legend: {
-                position: 'top',
+                position: 'right',
             },
             title: {
                 display: true,
@@ -35,7 +31,7 @@ export const GraficasReporte = () => {
             },
         },
     };
-    console.log('Las tablas son',cambio)
+    
     return cambio && cambio.length !=0 &&(
         <>
             <h4 className="text-center my-3">Reporte final</h4>
@@ -50,7 +46,8 @@ export const GraficasReporte = () => {
                         return(
                             <>
                             <div className="col-auto d-flex align-items-center">
-                                <Pie data={tabla.payload} />
+                                <Pie data={tabla.payload} options={options} />
+                                <button className="btn btn-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }>Eliminar</button>
                             </div>
                             </>
                         )
@@ -59,6 +56,7 @@ export const GraficasReporte = () => {
                             <>
                             <div className="col-auto d-flex align-items-center">
                                 <Line data={tabla.payload} options={options} />
+                                <button className="btn btn-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }>Eliminar</button>
                             </div>
                             </>
                         )
@@ -67,6 +65,7 @@ export const GraficasReporte = () => {
                             <>
                             <div className="col-auto d-flex align-items-center">
                                 <Bar data={tabla.payload} options={options} />
+                                <button className="btn btn-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }>Eliminar</button>
                             </div>
                             </>
                         )

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Graficas } from './Graficas';
-import { useFiltros, useGraficas } from '../hooks/';
+import { useFiltros } from '../hooks/';
 import { FiltrosSelects } from './FiltrosSelects';
 import { FiltroSelectOrdernarPor } from './FiltroSelectOrdernarPor';
 import { Tabla } from './Tabla';
