@@ -1,8 +1,10 @@
 import { useContext, useEffect, useState } from "react"
 import { ArchivoContext,GraficasContext } from "../context"
 import { Bar, Line, Pie } from "react-chartjs-2"
+import html2canvas from "html2canvas";
+import pdfConverter from 'jspdf'
 
-const obtenerTablas = ()=>{
+const obtenerTablas = () => {
     return JSON.parse(localStorage.getItem('graficas'))
 }
 
@@ -16,11 +18,12 @@ export const GraficasReporte = () => {
     
 
     useEffect(() => {
-       setCambio(obtenerTablas());
+        setCambio(obtenerTablas());
     }, [actualizador])
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 position: 'right',
@@ -31,50 +34,89 @@ export const GraficasReporte = () => {
             },
         },
     };
+
+    const optionsBar = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'right',
+            },
+            title: {
+                display: true,
+                text: '',
+            },
+        },
+    };
+
+    const div2PDF = (e) => {
+        /////////////////////////////
+        // Hide/show button if you need
+        /////////////////////////////
     
-    return cambio && cambio.length !=0 &&(
+        const but = e.target;
+        but.style.display = "none";
+        let input = window.document.getElementsByClassName("example")[0];
+    
+        html2canvas(input).then(canvas => {
+          const img = canvas.toDataURL("image/png");
+          
+          const pdf = new pdfConverter("l", "pt");
+          pdf.addImage(
+            img,
+            "png",0,0,500,500
+          );
+          pdf.save("chart.pdf");
+          but.style.display = "block";
+        });
+      };
+
+
+    console.log('Las tablas son', cambio)
+    return cambio && cambio.length != 0 && (
         <>
             <h4 className="text-center my-3">Reporte final</h4>
-            <div className="container">
-            
-            <div className="row bg-white">
+            <div className="container mb-3">
 
-            
-            {
-                cambio.map(tabla =>{
-                    if(tabla.tipo === 'pie'){
-                        return(
-                            <>
-                            <div className="col-auto d-flex align-items-center">
-                                <Pie data={tabla.payload} options={options} />
+                <div className="row bg-white">
+
+
+                    {
+                        cambio.map(tabla => {
+                            if (tabla.tipo === 'pie') {
+                                return (
+                                    <>
+                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="example col-md-11 d-flex align-items-center my-4">
+                                            <Pie data={tabla.payload} options={options} options={options} />
                                 <button className="btn btn-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }>Eliminar</button>
-                            </div>
-                            </>
-                        )
-                    }else if(tabla.tipo === 'line'){
-                        return (
-                            <>
-                            <div className="col-auto d-flex align-items-center">
-                                <Line data={tabla.payload} options={options} />
+                                            <button onClick={(e) => div2PDF(e)}>Export 2 PDF</button>
+                                        </div>
+                                    </>
+                                )
+                            } else if (tabla.tipo === 'line') {
+                                return (
+                                    <>
+                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center">
+                                            <Line data={tabla.payload} options={optionsBar} />
                                 <button className="btn btn-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }>Eliminar</button>
-                            </div>
-                            </>
-                        )
-                    }else if (tabla.tipo === 'barra'){
-                        return (
-                            <>
-                            <div className="col-auto d-flex align-items-center">
-                                <Bar data={tabla.payload} options={options} />
+                                        </div>
+                                    </>
+                                )
+                            } else if (tabla.tipo === 'barra') {
+                                return (
+                                    <>
+                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center">
+                                            <Bar data={tabla.payload} options={optionsBar} />
                                 <button className="btn btn-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }>Eliminar</button>
-                            </div>
-                            </>
-                        )
+                                        </div>
+                                    </>
+                                )
+                            }
+
+                        })
                     }
-                
-                })
-            }
+                </div>
             </div>
-</div>
         </>
     )
 }

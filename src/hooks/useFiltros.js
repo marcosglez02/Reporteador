@@ -12,7 +12,6 @@ export const useFiltros = () => {
     const [mostrarLineChart, setMostrarLineChart] = useState(false);
     const [mostrarBarChart, setMostrarBarChart] = useState(false);
 
-
     // Contexto
     const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, contador, datosPost,
         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla, setdatosPost, setContador } = useContext(ArchivoContext);
@@ -167,6 +166,7 @@ export const useFiltros = () => {
         mostrarPieChart,
         mostrarLineChart,
         mostrarBarChart,
+        printHTML,
         filtrado,
         onNewGrafica,
         categoria, empresa, departamento, prioridad, subcategoria, ubicacion

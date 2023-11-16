@@ -5,6 +5,8 @@ import { FiltrosSelects } from './FiltrosSelects';
 import { FiltroSelectOrdernarPor } from './FiltroSelectOrdernarPor';
 import { Tabla } from './Tabla';
 import { GraficasReporte } from './GraficasReporte';
+import { PDF } from './PDF';
+import { PDFViewer } from '@react-pdf/renderer';
 
 
 export const Filtros = ({ cambiarEstado }) => {
@@ -75,7 +77,6 @@ export const Filtros = ({ cambiarEstado }) => {
                 )
             }
             <GraficasReporte/>
-                        
         </>
 
 

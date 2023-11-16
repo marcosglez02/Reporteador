@@ -2,3 +2,8 @@ body{
     margin: 0 auto;
     box-sizing: border-box;
 }
+
+canvas{
+    width: 500px;
+    height: 500px;
+}
