@@ -87,7 +87,7 @@ export const GraficasReporte = () => {
                                 return (
                                     <>
                                         <div style={{ minWidth: '500px', minHeight: '500px' }} className="example col-md-11 d-flex align-items-center my-4">
-                                            <Pie data={tabla.payload} options={options} options={options} />
+                                            <Pie data={tabla.payload} options={options} />
                                 <button className="btn btn-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }>Eliminar</button>
                                             <button onClick={(e) => div2PDF(e)}>Export 2 PDF</button>
                                         </div>
