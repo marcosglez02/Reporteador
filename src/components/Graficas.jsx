@@ -22,18 +22,19 @@ export const Graficas = ({ ChartData }) => {
 
     return (
         <>
+            
             <div className="container">
                 <div className="row bg-white justify-content-center">
                     {ChartData && ChartData.datasets && (
                         <>
-                            <div className="col-10 text-center">
-                                <button onClick={togglePieChart} className='btn'><i className="bi bi-pie-chart-fill"></i></button>
-                                <button onClick={toggleLineChart} className='btn'><i className="bi bi-graph-up"></i></button>
-                                <button onClick={toggleBarChart} className='btn'><i className="bi bi-bar-chart-fill"></i></button>
+                            <div className="col-11 text-center">
+                                <button onClick={togglePieChart} className='btn mx-2 fs-2'><i className="bi bi-pie-chart-fill"></i></button>
+                                <button onClick={toggleLineChart} className='btn mx-2 fs-2'><i className="bi bi-graph-up"></i></button>
+                                <button onClick={toggleBarChart} className='btn mx-2 fs-2'><i className="bi bi-bar-chart-fill"></i></button>
 
                             </div>
-                            <div className="col-2">
-                                <button className='btn btn-success my-2' onClick={onNewGrafica}>Agregar al reporte</button>
+                            <div className="col-1" >
+                                <button className='btn btn-outline-success my-2' onClick={onNewGrafica}><i className="bi bi-file-earmark-plus-fill"></i></button>
                             </div>
 
                             {mostrarPieChart ?
