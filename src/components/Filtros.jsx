@@ -54,7 +54,7 @@ export const Filtros = ({ cambiarEstado }) => {
                         <FiltroSelectOrdernarPor cambio={handleInput} datos={filtrado} />
 
                         <div className="d-grid gap-2">
-                           <button className='btn btn-success mt-3 mb-3 py-2' type="submit">Buscar</button>
+                           <button className='btn btn-success mt-3 mb-3 py-2' type="submit"><i className="bi bi-search"></i> Buscar</button>
                         </div>
                     </>
 
@@ -67,7 +67,7 @@ export const Filtros = ({ cambiarEstado }) => {
             contador !==0 &&(
                     <>
                         
-                        <h4 className='text-center'>Previsualización de las gráficas</h4>
+                        {/* <h4 className='text-center'>Previsualización de las gráficas</h4> */}
 
                         
                         <Graficas ChartData={ChartData} fetchData={fetchData} />

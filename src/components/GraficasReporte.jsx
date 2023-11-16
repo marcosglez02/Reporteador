@@ -64,9 +64,9 @@ export const GraficasReporte = () => {
           const pdf = new pdfConverter("l", "pt");
           pdf.addImage(
             img,
-            "png",0,0,500,500
+            "png",70,20,700,1000,'','MEDIUM'
           );
-          pdf.save("chart.pdf");
+          pdf.save("Reporte.pdf");
           but.style.display = "block";
         });
       };
@@ -77,8 +77,11 @@ export const GraficasReporte = () => {
         <>
             <h4 className="text-center my-3">Reporte final</h4>
             <div className="container mb-3">
-
-                <div className="row bg-white">
+                <div className="text-end">
+                     <button className="btn btn-dark mb-2" onClick={(e) => div2PDF(e)}><i className="bi bi-file-earmark-pdf-fill"></i> Descargar PDF</button>
+                </div>
+           
+                <div className="example row bg-white">
 
 
                     {
@@ -86,10 +89,11 @@ export const GraficasReporte = () => {
                             if (tabla.tipo === 'pie') {
                                 return (
                                     <>
-                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="example col-md-11 d-flex align-items-center my-4">
+                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center my-4">
                                             <Pie data={tabla.payload} options={options} />
-                                <button className="btn btn-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }>Eliminar</button>
-                                            <button onClick={(e) => div2PDF(e)}>Export 2 PDF</button>
+                                        </div>
+                                        <div className="col-1 align-self-center text-center">
+                                            <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i></button>
                                         </div>
                                     </>
                                 )
@@ -98,7 +102,9 @@ export const GraficasReporte = () => {
                                     <>
                                         <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center">
                                             <Line data={tabla.payload} options={optionsBar} />
-                                <button className="btn btn-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }>Eliminar</button>
+                                        </div>
+                                        <div className="col-1 align-self-center text-center">
+                                            <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i></button>
                                         </div>
                                     </>
                                 )
@@ -107,7 +113,9 @@ export const GraficasReporte = () => {
                                     <>
                                         <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center">
                                             <Bar data={tabla.payload} options={optionsBar} />
-                                <button className="btn btn-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }>Eliminar</button>
+                                        </div>
+                                        <div className="col-1 align-self-center text-center">
+                                            <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i></button>
                                         </div>
                                     </>
                                 )

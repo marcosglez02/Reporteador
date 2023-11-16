@@ -166,7 +166,6 @@ export const useFiltros = () => {
         mostrarPieChart,
         mostrarLineChart,
         mostrarBarChart,
-        printHTML,
         filtrado,
         onNewGrafica,
         categoria, empresa, departamento, prioridad, subcategoria, ubicacion
