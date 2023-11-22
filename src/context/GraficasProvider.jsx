@@ -5,7 +5,9 @@ export const GraficasProvider = ({children}) => {
         //const [graficas, dispatch] = useReducer( graficasReducer, estadoInicial, init )
         const [graficas, setGraficas] = useState([])
         const {actualizador, setActualizador} = useContext(ArchivoContext)
-    
+        const [ChartData, setChartData] = useState({})
+        const [contador, setContador] = useState(0)
+
         useEffect(() => {
             localStorage.setItem('graficas', JSON.stringify( graficas ))
             setActualizador(!actualizador)
@@ -21,8 +23,9 @@ export const GraficasProvider = ({children}) => {
         }
 
   return (
-    <GraficasContext.Provider value={{graficas, 
-    setGraficas, handleDeleteGrafica, handleNewGrafica}}>
+    <GraficasContext.Provider value={{graficas, ChartData, contador,
+    setGraficas, setChartData, setContador,
+    handleDeleteGrafica, handleNewGrafica}}>
 
         {children}
     </GraficasContext.Provider>

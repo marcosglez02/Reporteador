@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { ArchivoContext,GraficasContext } from "../context"
-import { Bar, Line, Pie } from "react-chartjs-2"
+import { Bar, Line, Pie, Doughnut } from "react-chartjs-2"
 import html2canvas from "html2canvas";
 import pdfConverter from 'jspdf'
 
@@ -49,80 +49,179 @@ export const GraficasReporte = () => {
         },
     };
 
-    const div2PDF = (e) => {
-        /////////////////////////////
-        // Hide/show button if you need
-        /////////////////////////////
-    
-        const but = e.target;
-        but.style.display = "none";
-        let input = window.document.getElementsByClassName("example")[0];
-    
-        html2canvas(input).then(canvas => {
-          const img = canvas.toDataURL("image/png");
-          
-          const pdf = new pdfConverter("l", "pt");
-          pdf.addImage(
-            img,
-            "png",70,20,700,1000,'','MEDIUM'
-          );
-          pdf.save("Reporte.pdf");
-          but.style.display = "block";
+
+
+    const div2PDF = () => {
+        let input = window.document.getElementById('example');
+        html2canvas(input).then((canvas) => {
+            
+            const img = canvas.toDataURL("image/png");
+            const pdf = new pdfConverter("p", "pt");
+            const imgWidth = 500;
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+            pdf.addImage(img, 'PNG', 0, 0, imgWidth, imgHeight, '', 'MEDIUM');
+            pdf.save('Reporte.pdf')
+
         });
-      };
+        
+    };
 
+    // const generatePDF = async () => {
+    //     const pdf = new pdfConverter();
+    //     let captureCount = 0;
+    
+    //     for (let i = 0; i < cambio.length; i++) {
+    //       const elementId = i;
+          
+    //         const input = document.getElementById(elementId);
+    //         console.log(input)
+    //         const canvas = await html2canvas(document.getElementById(elementId));
+    //         console.log(canvas)
+    //         const imageData = canvas.toDataURL('image/png');
+    
+    //         // Agregar la captura al PDF
+    //         pdf.addImage(imageData, 'PNG', 10, 10, 180, 150,'', 'MEDIUM'); // Ajusta las coordenadas y dimensiones según sea necesario
+    //         captureCount++;
+    
+    //         // Cambiar de página después de cada tres capturas
+    //         if (captureCount === 3 && i !== cambio.length - 1) {
+    //           pdf.addPage();
+    //           captureCount = 0; // Reiniciar el contador
+    //         } else if (i !== cambio.length - 1) {
+    //             pdf.addPage();
+    //           }
 
-    console.log('Las tablas son', cambio)
+    //     }
+    
+    //     // Guardar el PDF
+    //     pdf.save('nombre_archivo.pdf');
+    // }
+
+    const generatePDF = async () => {
+        const pdf = new pdfConverter();
+        let captureCount = 0;
+        const captureWidth = 150; // Ancho de cada captura
+        const captureHeight = 90; // Alto de cada captura
+        const startX = 30; // Coordenada X inicial
+        const startY = 10; // Coordenada Y inicial
+        const spacingY = 140; // Espacio vertical entre capturas
+      
+        for (let i = 0; i < cambio.length; i++) {
+          const elementId = i;
+          const canvas = await html2canvas(document.getElementById(elementId));
+          const imageData = canvas.toDataURL('image/png');
+      
+          // Calcular coordenadas para la posición de la captura en la página
+          const x = startX;
+          const y = startY + captureCount * spacingY;
+      
+          // Agregar la captura al PDF con las coordenadas calculadas
+          pdf.addImage(imageData, 'PNG', x, y, captureWidth, captureHeight); 
+      
+          captureCount++;
+      
+          // Cambiar de página después de cada tres capturas
+          if (captureCount === 2 && i !== cambio.length - 1) {
+            pdf.addPage();
+            captureCount = 0; // Reiniciar el contador
+          } else if (i !== cambio.length - 1) {
+            // Si no es el último elemento, pero no se han capturado tres imágenes, seguir en la misma página
+          }
+        }
+      
+        // Guardar el PDF
+        pdf.save('reporte.pdf');
+      }
+      
     return cambio && cambio.length != 0 && (
         <>
             <h4 className="text-center my-3">Reporte final</h4>
             <div className="container mb-3">
                 <div className="text-end">
-                     <button className="btn btn-dark mb-2" onClick={(e) => div2PDF(e)}><i className="bi bi-file-earmark-pdf-fill"></i> Descargar PDF</button>
+                     <button className="btn btn-dark mb-2" onClick={ generatePDF }><i className="bi bi-file-earmark-pdf-fill"></i> Descargar PDF</button>
                 </div>
            
-                <div className="example row bg-white">
-
+                <div className="row bg-white" id="example">
 
                     {
-                        cambio.map(tabla => {
+                        cambio.map((tabla, index) => {
                             if (tabla.tipo === 'pie') {
                                 return (
                                     <>
-                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center my-4">
-                                            <Pie data={tabla.payload} options={options} />
+                                        <hr />
+                                        <div className="row text-center" id={index}>
+                                            <h4>{tabla.titulo}</h4>
+                                            <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center my-4" >
+                                                <Pie data={tabla.payload} options={options} />
+                                            </div>
                                         </div>
-                                        <div className="col-1 align-self-center text-center">
-                                            <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i></button>
+                                        <div className="row mb-2">
+                                            <div className="col align-self-end text-end">
+                                                <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i>Eliminar</button>
+                                            </div>
                                         </div>
+                                        
+                                        
                                     </>
                                 )
                             } else if (tabla.tipo === 'line') {
                                 return (
                                     <>
-                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center">
-                                            <Line data={tabla.payload} options={optionsBar} />
+                                                                                <hr />
+                                        <div className="row text-center" id={index}>
+                                            <h4>{tabla.titulo}</h4>
+                                            <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center my-4" >
+                                                <Line data={tabla.payload} options={options} />
+                                            </div>
                                         </div>
-                                        <div className="col-1 align-self-center text-center">
-                                            <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i></button>
+                                        <div className="row mb-2">
+                                            <div className="col align-self-end text-end">
+                                                <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i>Eliminar</button>
+                                            </div>
                                         </div>
+                                        
                                     </>
                                 )
                             } else if (tabla.tipo === 'barra') {
                                 return (
                                     <>
-                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center">
-                                            <Bar data={tabla.payload} options={optionsBar} />
+                                        <hr />
+                                        <div className="row text-center" id={index}>
+                                            <h4>{tabla.titulo}</h4>
+                                            <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center my-4" >
+                                                <Bar data={tabla.payload} options={options} />
+                                            </div>
+                                        </div>
+                                        <div className="row mb-2">
+                                            <div className="col align-self-end text-end">
+                                                <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i>Eliminar</button>
+                                            </div>
+                                        </div>
+                                        
+                                    </>
+                                )
+                            } else if (tabla.tipo === 'dona') {
+                                return (
+                                    <>
+                                        <hr />
+                                        <div className="row text-center">
+                                            <h4>{tabla.titulo}</h4>
+                                        </div>
+                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center" id={index}>
+                                            <Doughnut data={tabla.payload} options={optionsBar} />
                                         </div>
                                         <div className="col-1 align-self-center text-center">
                                             <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i></button>
                                         </div>
+                                        
                                     </>
                                 )
                             }
 
+
                         })
                     }
+                    
                 </div>
             </div>
         </>
