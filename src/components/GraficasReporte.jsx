@@ -28,74 +28,9 @@ export const GraficasReporte = () => {
             legend: {
                 position: 'right',
             },
-            title: {
-                display: true,
-                text: '',
-            },
-        },
-    };
-
-    const optionsBar = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'right',
-            },
-            title: {
-                display: true,
-                text: '',
-            },
-        },
-    };
-
-
-
-    const div2PDF = () => {
-        let input = window.document.getElementById('example');
-        html2canvas(input).then((canvas) => {
             
-            const img = canvas.toDataURL("image/png");
-            const pdf = new pdfConverter("p", "pt");
-            const imgWidth = 500;
-            const imgHeight = canvas.height * imgWidth / canvas.width;
-            pdf.addImage(img, 'PNG', 0, 0, imgWidth, imgHeight, '', 'MEDIUM');
-            pdf.save('Reporte.pdf')
-
-        });
-        
+        },
     };
-
-    // const generatePDF = async () => {
-    //     const pdf = new pdfConverter();
-    //     let captureCount = 0;
-    
-    //     for (let i = 0; i < cambio.length; i++) {
-    //       const elementId = i;
-          
-    //         const input = document.getElementById(elementId);
-    //         console.log(input)
-    //         const canvas = await html2canvas(document.getElementById(elementId));
-    //         console.log(canvas)
-    //         const imageData = canvas.toDataURL('image/png');
-    
-    //         // Agregar la captura al PDF
-    //         pdf.addImage(imageData, 'PNG', 10, 10, 180, 150,'', 'MEDIUM'); // Ajusta las coordenadas y dimensiones según sea necesario
-    //         captureCount++;
-    
-    //         // Cambiar de página después de cada tres capturas
-    //         if (captureCount === 3 && i !== cambio.length - 1) {
-    //           pdf.addPage();
-    //           captureCount = 0; // Reiniciar el contador
-    //         } else if (i !== cambio.length - 1) {
-    //             pdf.addPage();
-    //           }
-
-    //     }
-    
-    //     // Guardar el PDF
-    //     pdf.save('nombre_archivo.pdf');
-    // }
 
     const generatePDF = async () => {
         const pdf = new pdfConverter();
@@ -116,7 +51,7 @@ export const GraficasReporte = () => {
           const y = startY + captureCount * spacingY;
       
           // Agregar la captura al PDF con las coordenadas calculadas
-          pdf.addImage(imageData, 'PNG', x, y, captureWidth, captureHeight); 
+          pdf.addImage(imageData, 'PNG', x, y, captureWidth, captureHeight, '', 'SLOW'); 
       
           captureCount++;
       
@@ -167,7 +102,7 @@ export const GraficasReporte = () => {
                             } else if (tabla.tipo === 'line') {
                                 return (
                                     <>
-                                                                                <hr />
+                                        <hr />
                                         <div className="row text-center" id={index}>
                                             <h4>{tabla.titulo}</h4>
                                             <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center my-4" >
@@ -204,14 +139,16 @@ export const GraficasReporte = () => {
                                 return (
                                     <>
                                         <hr />
-                                        <div className="row text-center">
+                                        <div className="row text-center" id={index}>
                                             <h4>{tabla.titulo}</h4>
+                                            <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center my-4" >
+                                                <Doughnut data={tabla.payload} options={options} />
+                                            </div>
                                         </div>
-                                        <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center" id={index}>
-                                            <Doughnut data={tabla.payload} options={optionsBar} />
-                                        </div>
-                                        <div className="col-1 align-self-center text-center">
-                                            <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i></button>
+                                        <div className="row mb-2">
+                                            <div className="col align-self-end text-end">
+                                                <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i>Eliminar</button>
+                                            </div>
                                         </div>
                                         
                                     </>

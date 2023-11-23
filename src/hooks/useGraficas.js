@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ArchivoContext, GraficasContext } from "../context";
 
 export const useGraficas = () => {
@@ -7,10 +7,10 @@ export const useGraficas = () => {
     const [mostrarBarChart, setMostrarBarChart] = useState(false);
     const [mostrarDoughnutChart, setDoughnutChart] = useState(false);
 
-    const {handleNewGrafica, contador, setContador, ChartData} = useContext(GraficasContext);
+    const { handleNewGrafica, contador, setContador, ChartData, setChartData } = useContext(GraficasContext);
 
-    const { titulo } = useContext(ArchivoContext)
-    
+    const { titulo, datosPost } = useContext(ArchivoContext)
+
     const togglePieChart = () => {
         setMostrarLineChart(false)
         setMostrarBarChart(false)
@@ -38,19 +38,48 @@ export const useGraficas = () => {
         setMostrarBarChart(false)
         setDoughnutChart(!mostrarDoughnutChart)
     };
+    const fetchData = () => {
+        setChartData({
+            labels: datosPost.map(element => element.labels),
+            datasets: [{
+                fill: true,
+                label: 'Numero de tickets',
+                data: datosPost.map(element => element.numero),
+                borderColor: ['rgba(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 206, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(153, 102, 255)',
+                    'rgb(255, 159, 64)',
+                    'rgb(0, 85, 247)'],
+                backgroundColor: ['rgba(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 206, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(153, 102, 255)',
+                    'rgb(255, 159, 64)',
+                    'rgb(0, 85, 247)']
+            }]
+        })
+    }
 
-    
+    useEffect(() => {
+        if (datosPost.length != 0) {
+            fetchData()
+        }
+    }, [datosPost])
 
-    const onNewGrafica = ()=>{
-        let tipo= ''
-        if(mostrarBarChart){
-            tipo='barra'
-        }else if(mostrarLineChart){
-            tipo='line'
-        }else if(mostrarPieChart){
-            tipo='pie'
-        }else{
-            tipo='dona'
+
+    const onNewGrafica = () => {
+        let tipo = ''
+        if (mostrarBarChart) {
+            tipo = 'barra'
+        } else if (mostrarLineChart) {
+            tipo = 'line'
+        } else if (mostrarPieChart) {
+            tipo = 'pie'
+        } else {
+            tipo = 'dona'
         }
 
         const newGrafica = {
@@ -59,7 +88,7 @@ export const useGraficas = () => {
             titulo,
             payload: ChartData
         }
-        setContador(contador+1)
+        setContador(contador + 1)
         handleNewGrafica(newGrafica)
     }
 
@@ -84,10 +113,10 @@ export const useGraficas = () => {
         },
     };
 
-  return {
-    mostrarBarChart, mostrarLineChart, mostrarPieChart, mostrarDoughnutChart,
-    toggleBarChart, toggleLineChart, togglePieChart, toggleDoughnutChart,
-    options, optionsLine,
-    onNewGrafica
-  }
+    return {
+        mostrarBarChart, mostrarLineChart, mostrarPieChart, mostrarDoughnutChart, ChartData,
+        toggleBarChart, toggleLineChart, togglePieChart, toggleDoughnutChart, fetchData,
+        options, optionsLine,
+        onNewGrafica
+    }
 }

@@ -5,7 +5,7 @@ import { useFiltros } from '../hooks/';
 export const Filtros = ({ cambiarEstado }) => {
 
     const { categoria, empresa, ubicacion, prioridad, subcategoria, departamento, contador,
-        ChartData, handleInput, handleSubmit, peticionesGet, fetchData, filtrado } = useFiltros()
+         handleInput, handleSubmit, peticionesGet, filtrado } = useFiltros()
     
 
     useEffect(() => {
@@ -59,7 +59,7 @@ export const Filtros = ({ cambiarEstado }) => {
                 
             contador !==0 &&(
                     <>
-                        <Graficas ChartData={ChartData} fetchData={fetchData} /> 
+                        <Graficas /> 
                     </>
                 )
             }

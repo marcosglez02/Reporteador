@@ -1,15 +1,15 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { URLs } from '../common/URLs'
 import axios from "axios"
-import { ArchivoContext, GraficasContext} from "../context"
+import { ArchivoContext} from "../context"
 
 export const useFiltros = () => {
 
     // Contexto
-    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor, datosPost,
+    const { categoria, empresa, departamento, prioridad, ubicacion, subcategoria, filtrado, ordenarPor,
         setCategoria, setEmpresa, setDepartamento, setPrioridad, setUbicacion, setSubcategoria, setFiltrado, setOrdenarPor, setTabla, setdatosPost, setTitulo } = useContext(ArchivoContext);
     
-    const {ChartData, setChartData}= useContext(GraficasContext)
+    
 
     const handleSubmit = async (event) => {
         const nombreTabla = localStorage.getItem('nombre')
@@ -31,30 +31,6 @@ export const useFiltros = () => {
 
     }
 
-    const fetchData = () => {
-        setChartData({
-            labels: datosPost.map(element => element.labels),
-            datasets: [{
-                fill: true,
-                label: 'Numero de tickets',
-                data: datosPost.map(element => element.numero),
-                borderColor: ['rgba(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 206, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(153, 102, 255)',
-                    'rgb(255, 159, 64)',
-                    'rgb(0, 85, 247)'],
-                backgroundColor: ['rgba(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 206, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(153, 102, 255)',
-                    'rgb(255, 159, 64)',
-                    'rgb(0, 85, 247)']
-            }]
-        })
-    }
 
     const handleInput = (event) => {
 
@@ -94,18 +70,12 @@ export const useFiltros = () => {
            
     }
 
-    useEffect(() => {
-        if (datosPost.length != 0) {
-            fetchData()
-        }
-    }, [datosPost])
+
 
     return {
-        ChartData,
         handleInput,
         handleSubmit,
         peticionesGet,
-        fetchData,
         filtrado,
         categoria, empresa, departamento, prioridad, subcategoria, ubicacion
     }

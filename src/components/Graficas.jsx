@@ -6,9 +6,9 @@ import { ArchivoContext } from '../context';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title, Filler, BarElement);
 
-export const Graficas = ({ ChartData }) => {
+export const Graficas = () => {
 
-    const { togglePieChart, toggleLineChart, toggleBarChart,toggleDoughnutChart, mostrarPieChart, mostrarLineChart, mostrarBarChart, mostrarDoughnutChart, onNewGrafica, options, optionsLine } = useGraficas()
+    const { togglePieChart, toggleLineChart, toggleBarChart,toggleDoughnutChart, mostrarPieChart, mostrarLineChart, mostrarBarChart, mostrarDoughnutChart, onNewGrafica, options, optionsLine, ChartData } = useGraficas()
 
     const{ titulo } = useContext(ArchivoContext)
 
