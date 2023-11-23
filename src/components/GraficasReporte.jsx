@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { ArchivoContext,GraficasContext } from "../context"
+import { ArchivoContext, GraficasContext } from "../context"
 import { Bar, Line, Pie, Doughnut } from "react-chartjs-2"
 import html2canvas from "html2canvas";
 import pdfConverter from 'jspdf'
@@ -10,12 +10,12 @@ const obtenerTablas = () => {
 
 export const GraficasReporte = () => {
 
-    const {handleDeleteGrafica} = useContext(GraficasContext)
+    const { handleDeleteGrafica } = useContext(GraficasContext)
 
     const [cambio, setCambio] = useState()
 
     const { actualizador } = useContext(ArchivoContext);
-    
+
 
     useEffect(() => {
         setCambio(obtenerTablas());
@@ -40,7 +40,7 @@ export const GraficasReporte = () => {
         const startX = 30; // Coordenada X inicial
         const startY = 10; // Coordenada Y inicial
         const spacingY = 140; // Espacio vertical entre capturas
-      
+
         for (let i = 0; i < cambio.length; i++) {
           const elementId = i;
           const canvas = await html2canvas(document.getElementById(elementId));
@@ -63,19 +63,19 @@ export const GraficasReporte = () => {
             // Si no es el último elemento, pero no se han capturado tres imágenes, seguir en la misma página
           }
         }
-      
+
         // Guardar el PDF
         pdf.save('reporte.pdf');
-      }
-      
+    }
+
     return cambio && cambio.length != 0 && (
         <>
             <h4 className="text-center my-3">Reporte final</h4>
             <div className="container mb-3">
                 <div className="text-end">
-                     <button className="btn btn-dark mb-2" onClick={ generatePDF }><i className="bi bi-file-earmark-pdf-fill"></i> Descargar PDF</button>
+                    <button className="btn btn-dark mb-2" onClick={generatePDF}><i className="bi bi-file-earmark-pdf-fill"></i> Descargar PDF</button>
                 </div>
-           
+
                 <div className="row bg-white" id="example">
 
                     {
@@ -92,11 +92,11 @@ export const GraficasReporte = () => {
                                         </div>
                                         <div className="row mb-2">
                                             <div className="col align-self-end text-end">
-                                                <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i>Eliminar</button>
+                                                <button className="btn btn-outline-danger" onClick={() => handleDeleteGrafica(tabla.id)}><i className="bi bi-trash3-fill"></i>Eliminar</button>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                     </>
                                 )
                             } else if (tabla.tipo === 'line') {
@@ -111,10 +111,10 @@ export const GraficasReporte = () => {
                                         </div>
                                         <div className="row mb-2">
                                             <div className="col align-self-end text-end">
-                                                <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i>Eliminar</button>
+                                                <button className="btn btn-outline-danger" onClick={() => handleDeleteGrafica(tabla.id)}><i className="bi bi-trash3-fill"></i>Eliminar</button>
                                             </div>
                                         </div>
-                                        
+
                                     </>
                                 )
                             } else if (tabla.tipo === 'barra') {
@@ -129,10 +129,10 @@ export const GraficasReporte = () => {
                                         </div>
                                         <div className="row mb-2">
                                             <div className="col align-self-end text-end">
-                                                <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i>Eliminar</button>
+                                                <button className="btn btn-outline-danger" onClick={() => handleDeleteGrafica(tabla.id)}><i className="bi bi-trash3-fill"></i>Eliminar</button>
                                             </div>
                                         </div>
-                                        
+
                                     </>
                                 )
                             } else if (tabla.tipo === 'dona') {
@@ -140,7 +140,11 @@ export const GraficasReporte = () => {
                                     <>
                                         <hr />
                                         <div className="row text-center" id={index}>
+                                        <div className="row text-center" id={index}>
                                             <h4>{tabla.titulo}</h4>
+                                            <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center my-4" >
+                                                <Doughnut data={tabla.payload} options={options} />
+                                            </div>
                                             <div style={{ minWidth: '500px', minHeight: '500px' }} className="col-md-11 d-flex align-items-center my-4" >
                                                 <Doughnut data={tabla.payload} options={options} />
                                             </div>
@@ -150,7 +154,7 @@ export const GraficasReporte = () => {
                                                 <button className="btn btn-outline-danger" onClick={ ()=> handleDeleteGrafica(tabla.id) }><i className="bi bi-trash3-fill"></i>Eliminar</button>
                                             </div>
                                         </div>
-                                        
+
                                     </>
                                 )
                             }
@@ -158,7 +162,7 @@ export const GraficasReporte = () => {
 
                         })
                     }
-                    
+
                 </div>
             </div>
         </>
