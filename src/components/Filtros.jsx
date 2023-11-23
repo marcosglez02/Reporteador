@@ -1,18 +1,11 @@
 import React, { useEffect } from 'react';
-import { Graficas } from './Graficas';
+import { Graficas, FiltrosSelects, FiltroSelectOrdernarPor, Tabla, GraficasReporte } from './';
 import { useFiltros } from '../hooks/';
-import { FiltrosSelects } from './FiltrosSelects';
-import { FiltroSelectOrdernarPor } from './FiltroSelectOrdernarPor';
-import { Tabla } from './Tabla';
-import { GraficasReporte } from './GraficasReporte';
-import { PDF } from './PDF';
-import { PDFViewer } from '@react-pdf/renderer';
-
 
 export const Filtros = ({ cambiarEstado }) => {
 
     const { categoria, empresa, ubicacion, prioridad, subcategoria, departamento, contador,
-        ChartData, estadoGrafica, handleInput, handleSubmit, peticionesGet, fetchData, filtrado, onNewGrafica } = useFiltros()
+        ChartData, handleInput, handleSubmit, peticionesGet, fetchData, filtrado } = useFiltros()
     
 
     useEffect(() => {
@@ -66,14 +59,8 @@ export const Filtros = ({ cambiarEstado }) => {
                 
             contador !==0 &&(
                     <>
-                        
-                        {/* <h4 className='text-center'>Previsualización de las gráficas</h4> */}
-
-                        
-                        <Graficas ChartData={ChartData} fetchData={fetchData} />
-                        
+                        <Graficas ChartData={ChartData} fetchData={fetchData} /> 
                     </>
-                    
                 )
             }
             <GraficasReporte/>

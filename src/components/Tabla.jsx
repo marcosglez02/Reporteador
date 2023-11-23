@@ -4,7 +4,8 @@ import DataTable, { createTheme } from 'react-data-table-component'
 
 export const Tabla = () => {
 
-	const { tabla, campos, buscar, setBuscar, setFilter, filter, idPositions } = useTabla()
+	const { tabla, campos, buscar, setBuscar, setFilter, filter } = useTabla()
+
 	const paginationComponentOptions = {
 		rowsPerPageText: 'Filas por página',
 		rangeSeparatorText: 'de',
@@ -78,41 +79,38 @@ export const Tabla = () => {
 				selector: campos => campos[column],
 				reorder: true,
 				width: '175px',
-				conditionalCellStyles: [
-					{
-						when: campos => campos,
-						style: {
-							backgroundColor: 'rgb(202, 202, 202)',
-							color: 'black',
-							'&:hover': {
-								cursor: 'pointer',
-							},
-						},
-					}
-				],
 			}
 		} else {
 			return {
 				name: column.toUpperCase(),
 				selector: campos => campos[column],
 				reorder: true,
-				conditionalCellStyles: [
-					{
-						when: campos => campos,
-						style: {
-							backgroundColor: 'rgb(202, 202, 202)',
-							color: 'black',
-							'&:hover': {
-								cursor: 'pointer',
-							},
-						},
-					}
-				],
 
 			}
 		}
 	})
 
+
+	const customStyles = {
+		rows: {
+			style: {
+				backgroundColor: "rgb(148,146,146)"
+			},
+			stripedStyle: {
+				backgroundColor: "rgb(202,202,202)"
+			}
+		},
+		headRow: {
+			style: {
+				minHeight: '45px',
+			},
+		},
+		headCells: {
+			style: {
+				fontSize: '14px',
+			},
+		},
+	};
 
 	return (
 		<>
@@ -131,6 +129,8 @@ export const Tabla = () => {
 					pagination
 					paginationComponentOptions={paginationComponentOptions}
 					theme="solarized"
+					striped
+					customStyles={customStyles}
 				/>
 
 			</div>
